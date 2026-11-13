@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>REXRA</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="header">
+  <div class="logo" onclick="goHome()"><img src="logo.png" class="myLogo" onerror="this.style.display='none'"><span>REXRA</span></div>
+  <div class="searchBox"><div class="search"><input id="sIn" placeholder="Search REXRA"><button>⌕</button></div></div>
+  <div class="rights"><div class="btn plus" onclick="openUp()">+</div><div class="btn" onclick="openAcc()">A</div><div class="btn gold" onclick="openPersonal()">P</div></div>
+</div>
+<div class="chips"><div class="chip active">All</div><div class="chip">Music</div><div class="chip">Gaming</div><div class="chip">REXRA</div><div class="chip">Mixes</div><div class="chip">Live</div><div class="chip">Comedy</div><div class="chip">Shorts</div><div class="chip">Trending</div><div class="chip">New to you</div></div>
+<div id="home">
+  <div style="margin:0 10px 12px;padding:14px;background:linear-gradient(135deg,#12121a,#0a2a3a,#00c2d1);border-radius:16px;border:1px solid rgba(0,194,209,.4)"><div style="display:flex;align-items:center;gap:9px"><img src="logo.png" style="width:42px;height:42px;border-radius:10px;background:#fff;border:2px solid #fff;flex-shrink:0" onerror="this.style.display='none'"><div style="min-width:0"><div style="font-size:10px;color:#7deeff;font-weight:800;letter-spacing:1px">WELCOME TO REXRA 🦖 • OFFICIAL</div><div style="font-size:17px;font-weight:900;line-height:1.2">Premium 4K Videos • Watch & Earn</div></div></div><button onclick="openUp()" style="margin-top:12px;padding:11px 18px;border-radius:30px;background:#fff;color:#000;border:0;font-weight:900;width:100%">+ Upload Video • Earn Now 🚀</button></div>
+  <div class="grid" id="grid"></div>
+</div>
+<div class="bottomNav">
+  <div class="bNav active" onclick="goHome()"><span>🏠</span>Home</div>
+  <div class="bNav" onclick="showToast('Shorts jaldi aa raha hai ⚡')"><span>⚡</span>Shorts</div>
+  <div class="bNav" onclick="openUp()"><span style="font-size:28px;color:#00c2d1;margin-top:-6px">＋</span></div>
+  <div class="bNav" onclick="showToast('Following • Real Followers')"><span>👥</span>Follow</div>
+  <div class="bNav" onclick="openPersonal()"><span>👤</span>You</div>
+</div>
+
+<div class="watchPage" id="watch">
+  <div class="playerWrap">
+    <video id="pl" playsinline controls preload="auto"></video>
+    <div id="bigPlay" onclick="forcePlay()"><div class="bigPlayBtn">▶️</div><div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:12px;font-weight:700">Tap to Play ▶️</div></div>
+    <div class="adOverlay" id="adOver"><div class="adTop"><span>● REXRA AD</span><span id="adCount">Ad 1 of 2 • Skip in 5s</span></div><div class="adContent"><div class="adBox" id="adBox">REXRA AD</div><button class="adSkip" id="skipBtn" onclick="skipAd()">Skip Ad</button></div></div>
+    <div style="display:flex;gap:6px;padding:8px 10px;overflow-x:auto;white-space:nowrap">
+      <button class="miniBtn" onclick="setQuality(this)">⚙️ Quality: Auto 4K</button>
+      <button class="miniBtn" onclick="setPlaySpeed(this)">▶️ Speed: 1x</button>
+      <button class="miniBtn" onclick="toggleCaption(this)">💬 Captions: On</button>
+      <button class="miniBtn" onclick="toggleLoop(this)">🔁 Loop: Off</button>
+      <button class="miniBtn" onclick="togglePiP()">🖼️ PiP</button>
+      <button class="miniBtn" onclick="seekBack()">⏪ 10s</button>
+      <button class="miniBtn" onclick="seekFwd()">10s ⏩</button>
+    </div>
+    <div style="display:flex;gap:6px;padding:0 10px 10px;flex-wrap:wrap"><button style="flex:1;padding:11px;border-radius:30px;background:#181825;color:#7deeff;border:1px solid #00c2d1;min-width:100px;font-weight:700" onclick="downloadVideo()">⬇ Download</button><button style="padding:11px 13px;border-radius:30px;background:#181825;color:#fff;border:1px solid #2a2a3a;font-size:12px" onclick="likeVideo()">💎 Appreciate <span id="likeC">0</span></button><button style="padding:11px 13px;border-radius:30px;background:#181825;color:#fff;border:1px solid #2a2a3a;font-size:12px" onclick="dislikeVideo()">🙈 Not For Me</button><button style="padding:11px 13px;border-radius:30px;background:#181825;color:#fff;border:1px solid #2a2a3a;font-size:12px" onclick="shareVideo()">↗ Share</button><button style="padding:11px 13px;border-radius:30px;background:#181825;color:#fff;border:1px solid #2a2a3a;font-size:12px" onclick="saveVideo()">➕ Save</button><button style="padding:11px 15px;border-radius:30px;background:linear-gradient(135deg,#00c2d1,#00e5ff);color:#fff;border:0;font-weight:800;font-size:12px" onclick="toggleSub(this)">+ Follow</button></div>
+    <div class="earnBar" id="earnBar"><span id="earnTxt"></span></div>
+    <div style="padding:12px"><div style="font-size:16px;font-weight:700;line-height:1.3" id="vTitle">REXRA Video</div><div style="display:flex;gap:8px;margin-top:10px;align-items:center"><div class="ch">R</div><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:13px">REXRA Official 🦖 • Verified ✓</div><div style="font-size:11px;color:#aaa"><span id="fCount">0 Followers</span> • Premium Creator</div></div><button style="padding:8px 12px;border-radius:20px;background:#181825;color:#fff;border:1px solid #2a2a3a;font-size:11px;flex-shrink:0">🔔 Notify On</button></div>
+    <div style="margin-top:12px;background:#12121a;padding:12px;border-radius:14px;font-size:13px;border:1px solid #1e1e2e"><b>Chapters</b><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button class="miniBtn" onclick="jumpTo(0)">00:00 Intro</button><button class="miniBtn" onclick="jumpTo(30)">00:30 Main</button><button class="miniBtn" onclick="jumpTo(60)">01:00 End</button><button class="miniBtn" onclick="toggleTranscript()">📄 Transcript</button><button class="miniBtn" onclick="showPoll()">📊 Poll</button><button class="miniBtn" onclick="reportVideo()">🚩 Report</button></div><div id="transcriptBox" style="display:none;margin-top:8px;font-size:12px;color:#aaa">00:00 - Welcome to REXRA 🦖<br>00:30 - Main Video<br>01:00 - End - Follow + Appreciate</div><div id="pollBox" style="display:none;margin-top:8px"><div style="font-size:12px">Poll: Video kaisa laga?</div><button class="miniBtn" onclick="showToast('Vote: Mast 🔥')">🔥 Mast</button> <button class="miniBtn" onclick="showToast('Vote: Super 💎')">💎 Super</button></div></div>
+    <div style="margin-top:12px"><b>Comments</b><div style="display:flex;gap:8px;margin-top:10px"><input id="cIn" placeholder="Add a comment..." style="flex:1;background:#12121a;border:1px solid #2a2a3a;border-radius:20px;padding:10px 12px;color:#fff;outline:none;min-width:0"><button onclick="addComment()" style="padding:10px 16px;border-radius:20px;background:#00c2d1;color:#fff;border:0;font-weight:700;flex-shrink:0">Comment</button></div><div id="cList" style="margin-top:10px"></div></div>
+    </div>
+  </div>
+  <div id="side" style="padding:12px"></div>
+</div>
+
+<div class="modal" id="upM"><div class="studio">
+<div class="studioTop"><img src="logo.png" style="width:34px;height:34px;object-fit:contain;border-radius:8px;background:#fff;border:2px solid #00c2d1;flex-shrink:0" onerror="this.style.display='none'"><b style="font-size:14px">REXRA STUDIO 🦖</b> <span class="autoTag">AUTO STEP • FINAL</span><span onclick="closeUp()" class="xBtn">✕</span></div>
+<div class="stepHeader"><div class="step active" id="st1" onclick="goTo(1)">1. Select</div><div class="step" id="st2" onclick="goTo(2)">2. Details</div><div class="step" id="st3" onclick="goTo(3)">3. Editing</div><div class="step" id="st4" onclick="goTo(4)">4. Elements</div><div class="step" id="st5" onclick="goTo(5)">5. Checks</div><div class="step" id="st6" onclick="goTo(6)">6. Visibility</div></div>
+<div style="padding:9px 12px;background:rgba(0,194,209,.08);font-size:11px;color:#7deeff;text-align:center" id="autoMsg">👆 Select karo — Baaki step apne aap aate rahenge</div>
+<div class="studioBody">
+<div class="preview"><video id="eV" controls playsinline preload="auto"></video><div id="gradientOver"></div><div id="noVideo"><div style="font-size:48px">🎬</div><div style="font-size:14px;font-weight:700;color:#aaa">Select Video to Upload</div><div style="font-size:11px;color:#666;margin-top:4px">4K • 60 FPS • REXRA Quality</div><button onclick="document.getElementById('fIn').click()" style="margin-top:14px;padding:11px 22px;border-radius:30px;background:linear-gradient(135deg,#00c2d1,#00e5ff);color:#fff;border:0;font-weight:800">+ Select Video</button></div><input type="file" id="fIn" accept="video/*" multiple hidden><div id="textOver"></div><div id="stickerOver"></div><div id="studioBigPlay" onclick="document.getElementById('eV').play();this.style.display='none'">▶️ Tap to Play</div></div>
+<div class="controls">
+<div id="sStep1" class="ctrlGroup"><b>1. SELECT VIDEO — Multi-Clip Merge</b><div onclick="document.getElementById('fIn').click()" style="margin-top:10px;border:1.5px dashed #00c2d1;padding:22px;text-align:center;border-radius:14px;cursor:pointer;background:rgba(0,194,209,.05)">+ Video Select • 4K • 16:9 • 60 FPS<br><span style="font-size:11px;color:#00c2d1">1 ya 2-3 Video ek saath select karo — Judke 1 ban jayegi</span></div><div id="clipList" style="margin-top:10px;display:none;background:#12121a;border:1px solid #00c2d1;border-radius:12px;padding:10px"></div><div id="mergeInfo" style="display:none;margin-top:8px;text-align:center;font-size:12px;color:#7deeff;font-weight:700"></div><div class="ytRow"><button class="chip" onclick="showToast('Camera Open')">📷 Record</button><button class="chip" onclick="showToast('Live Start')">🔴 Go Live</button><button class="chip" onclick="showToast('Shorts Open')">⚡ Shorts</button></div></div>
+<div id="sStep2" class="ctrlGroup" style="display:none"><b>2. DETAILS</b><div style="font-size:11px;color:#00c2d1">Title likhte hi Editing apne aap khulega</div>
+<label>Title (Required)</label><input id="eTitle" class="inp" placeholder="Add a title - REXRA Video" maxlength="100" oninput="autoAfterTitle(this);updateThumbPreview()">
+<label>Description</label><textarea id="eDesc" class="inp" placeholder="Tell viewers about your video #rexra" rows="3"></textarea>
+<label>Thumbnail — Apni Marzi Se — Creator Jesa — Jo Daloge Wahi Dikhega</label>
+<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="chip" style="background:#00c2d1;color:#fff" onclick="document.getElementById('thumbFile').click()">📸 Apni Thumbnail Upload Karo</button><button class="chip" onclick="clearCustomThumb()">🎬 Video Se Lo</button></div>
+<input type="file" id="thumbFile" accept="image/*" hidden>
+<div id="thumbPreview" style="margin-top:10px;border-radius:14px;overflow:hidden;border:1px solid #2a2a3a"></div>
+<div style="font-size:11px;color:#aaa;margin-top:6px">Jo photo daloge — Wahi Home pe dikhega — Bilkul waisa hi — Koi change nahi hoga</div>
+<label>Ya Neeche Se Color Wala Select Karo</label><div id="thumbList" style="display:flex;gap:8px;margin-top:8px;overflow-x:auto;padding:4px"></div>
+<label>Playlist</label><select class="inp"><option>+ Add to Playlist</option><option>My Playlist 1</option><option>Watch Later</option></select>
+<label>Audience - Made for Kids?</label><select class="inp"><option>No, it's not made for kids</option><option>Yes, it's made for kids</option></select>
+<label>Age Restriction</label><select class="inp"><option>No, don't restrict</option><option>Yes, restrict to 18+</option></select>
+<label>Tags</label><input class="inp" placeholder="rexra, premium, trending">
+<div class="ytRow"><select class="inp"><option>Language - Hindi</option><option>English</option><option>Hinglish</option></select><select class="inp"><option>Category - Entertainment</option><option>Music</option><option>Gaming</option><option>Education</option><option>Comedy</option></select></div>
+<label>Subtitles / Captions</label><select class="inp"><option>Auto Captions On</option><option>Upload Subtitles</option><option>Off</option></select>
+<label>Comments</label><select class="inp"><option>Allow All Comments</option><option>Hold for Review</option><option>Disable Comments</option></select>
+<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap"><label style="font-size:12px"><input type="checkbox" checked> Allow Download</label><label style="font-size:12px"><input type="checkbox" checked> Allow Share</label><label style="font-size:12px"><input type="checkbox" checked> Allow Remix</label></div>
+</div>
+<div id="sStep3" class="ctrlGroup" style="display:none"><b>3. EDITING - Auto Step</b><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="autoTag" id="editDot1">1.Trim ✓</span><span class="autoTag" id="editDot2">2.Filter</span><span class="autoTag" id="editDot3">3.Text</span><span class="autoTag" id="editDot4">4.Song</span><span class="autoTag" id="editDot5">5.Gradient</span></div>
+<div id="editTrim"><label>Trim - Timeline</label><div style="height:52px;background:#0a0a0f;border-radius:12px;margin-top:8px;border:1px solid #1e1e2e;display:flex;align-items:center;padding:6px"><div style="height:100%;background:linear-gradient(90deg,#00c2d1,#00e5ff);width:70%;border-radius:8px"></div></div><div class="ytRow"><input class="inp" value="00:00"><input class="inp" value="00:30"></div><label>Speed</label><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button class="chip active" onclick="setSpeed(1)">1x</button><button class="chip" onclick="setSpeed(0.5)">0.5x</button><button class="chip" onclick="setSpeed(1.5)">1.5x</button><button class="chip" onclick="setSpeed(2)">2x</button></div><button style="margin-top:10px;padding:11px 14px;border-radius:20px;background:#00c2d1;color:#fff;border:0;font-weight:700;width:100%" onclick="autoToFilter()">Trim Done → Filter apne aap</button></div>
+<div id="editFilter" style="display:none"><label>Filter & Effects</label><div class="filterGrid"><div class="filter active" onclick="setF('none',this);autoToText()">Original</div><div class="filter" onclick="setF('brightness(1.25) contrast(1.1)',this);autoToText()">Bright</div><div class="filter" onclick="setF('sepia(0.35) saturate(1.5)',this);autoToText()">REXRA</div><div class="filter" onclick="setF('grayscale(1)',this);autoToText()">Noir</div><div class="filter" onclick="setF('saturate(1.9) contrast(1.2)',this);autoToText()">Vivid</div><div class="filter" onclick="setF('blur(1px) brightness(0.9)',this);autoToText()">Dream</div><div class="filter" onclick="setF('hue-rotate(90deg)',this);autoToText()">Neon</div><div class="filter" onclick="setF('contrast(1.4)',this);autoToText()">Cinema</div><div class="filter" onclick="setF('sepia(0.6)',this);autoToText()">Vintage</div></div></div>
+<div id="editText" style="display:none"><label>Text on Video — Apni Marzi Se</label><input id="textOverlay" class="inp" placeholder="Text - Follow REXRA! 🦖"><select class="inp"><option>Top Title</option><option>Bottom Caption</option><option>Center Title</option><option>Lower Third</option></select><label>Stickers</label><div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><span class="stk" onclick="addSticker(this)">🦖</span><span class="stk" onclick="addSticker(this)">💎</span><span class="stk" onclick="addSticker(this)">🔥</span><span class="stk" onclick="addSticker(this)">❤️</span><span class="stk" onclick="addSticker(this)">⚡</span><span class="stk" onclick="addSticker(this)">✨</span></div><button style="margin-top:10px;padding:11px 14px;border-radius:20px;background:#00c2d1;color:#fff;border:0;font-weight:700;width:100%" onclick="autoToSong()">Text Done → Song apne aap</button></div>
+<div id="editSong" style="display:none"><label>Song / Music</label><select class="inp" id="songSel" onchange="autoToGradient()"><option>🎵 No Music</option><option>🎵 REXRA Beat - Trending</option><option>🎵 LoFi - Chill</option><option>🎵 Epic Premium</option><option>🎵 Trending Sound</option></select><label>Voice Over</label><button class="chip" onclick="showToast('Voice Over Recording Start 🎙️')">🎙️ Record Voice Over</button><label>Volume</label><input type="range" style="width:100%;accent-color:#00c2d1"><button style="margin-top:10px;padding:11px 14px;border-radius:20px;background:#00c2d1;color:#fff;border:0;font-weight:700;width:100%" onclick="autoToGradient()">Song Done → Gradient apne aap</button></div>
+<div id="editGradient" style="display:none"><label>Gradient Overlay — Agar Chaho To Lagao — Nahi To Skip Karo</label><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px"><button class="chip" onclick="setGradient('none');goTo(4)">No Gradient</button><button class="chip" style="background:linear-gradient(135deg,#ff6b00,#ffcc00);color:#fff;border:0" onclick="setGradient('sunset');goTo(4)">🌇 Sunset</button><button class="chip" style="background:linear-gradient(135deg,#000,#444);color:#fff;border:0" onclick="setGradient('cinematic');goTo(4)">🎬 Cinematic</button><button class="chip" style="background:linear-gradient(135deg,#00c2d1,#7b00ff);color:#fff;border:0" onclick="setGradient('rexra');goTo(4)">💎 REXRA</button></div></div>
+</div>
+<div id="sStep4" class="ctrlGroup" style="display:none"><b>4. VIDEO ELEMENTS</b><label>End Screen</label><select class="inp" onchange="autoToChecks()"><option>+ Add End Screen</option><option>Follow Button</option><option>Next Video</option><option>Playlist</option></select><label>Cards</label><select class="inp"><option>+ Add Card</option><option>Video Card</option><option>Playlist Card</option></select><label>Chapters</label><input class="inp" placeholder="00:00 Intro • 00:30 Main • 01:00 End"><label>Poll</label><input class="inp" placeholder="Poll Question - Video kaisa laga?"></div>
+<div id="sStep5" class="ctrlGroup" style="display:none"><b>5. CHECKS</b><div style="margin-top:10px;background:#12121a;padding:12px;border-radius:12px;border:1px solid #1e1e2e">✅ Copyright Check - No issues found</div><div style="margin-top:8px;background:#12121a;padding:12px;border-radius:12px;border:1px solid #1e1e2e">✅ Community Guidelines - Passed</div><div style="margin-top:8px;background:#12121a;padding:12px;border-radius:12px;border:1px solid #1e1e2e">✅ Quality Check - 4K • 60 FPS • Good Audio</div><button style="margin-top:10px;padding:11px 14px;border-radius:20px;background:#00c2d1;color:#fff;border:0;font-weight:700;width:100%" onclick="goTo(6)">Checks Done → Visibility apne aap</button></div>
+<div id="sStep6" class="ctrlGroup" style="display:none;text-align:center"><b>6. VISIBILITY</b><label style="text-align:left">Save or Publish</label><select class="inp" id="visSel"><option>Public - Sab dekhenge</option><option>Private - Sirf tum</option><option>Unlisted - Link wale hi</option><option>Schedule - Baad me</option></select><input type="datetime-local" class="inp" id="schedIn" style="display:none"><div style="margin-top:10px;text-align:left"><label><input type="checkbox"> Set as Premiere</label><br><label><input type="checkbox" checked> Notify Followers</label></div><div class="progress"><div class="progressBar" id="progBar"></div></div><div id="progText" style="font-size:12px;margin-top:8px;color:#00c2d1">Ready to Upload...</div><div id="uploadAd" style="display:none;margin-top:12px;background:#000;padding:12px;border-radius:12px;border:1px solid #00c2d1"><div style="height:110px;background:linear-gradient(135deg,#0a2a3a,#00c2d1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800">UPLOAD AD</div><button id="upSkip" style="display:none;margin-top:8px;padding:7px 16px;border-radius:20px;background:#00c2d1;color:#fff;border:0" onclick="skipUploadAd()">Skip Ad</button></div><div id="doneBox" style="display:none;margin-top:12px"><div style="font-size:52px">🦖</div><div style="color:#00c2d1;font-weight:800;font-size:18px">UPLOADED!</div><div style="font-size:11px;color:#aaa">Permanent
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#07070a;color:#fff;overflow-x:hidden;width:100%;padding-bottom:68px}
+.header{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(10,10,15,.96);display:flex;align-items:center;padding:0 10px;gap:8px;z-index:1000;border-bottom:1px solid #1e1e2e}
+.logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:18px;flex-shrink:0}
+.myLogo{width:36px;height:36px;object-fit:contain;border-radius:10px;background:#fff;border:2px solid #00c2d1;flex-shrink:0}
+.searchBox{flex:1;display:flex;min-width:0}
+.search{flex:1;display:flex;height:38px;min-width:0}
+.search input{flex:1;background:#16161f;border:1px solid #2a2a3a;border-right:0;border-radius:40px 0 0 40px;padding:0 12px;color:#fff;outline:none;min-width:0;font-size:13px}
+.search button{width:40px;background:#1e1e2e;border:1px solid #2a2a3a;border-radius:0 40px 40px 0;color:#00c2d1;flex-shrink:0}
+.rights{display:flex;gap:5px;flex-shrink:0}
+.btn{width:36px;height:36px;border-radius:50%;background:#181825;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid #2a2a3a;flex-shrink:0;font-size:14px}
+.btn.plus{background:linear-gradient(135deg,#00c2d1,#00e5ff);color:#fff;font-size:22px;border:0}
+.btn.gold{background:#00c2d1;color:#fff;font-weight:900;font-size:12px}
+.chips{display:flex;gap:7px;padding:10px;overflow-x:auto;white-space:nowrap;margin-top:56px;background:#07070a}
+.chip{padding:7px 14px;background:#181825;border-radius:20px;font-size:12px;flex-shrink:0;border:1px solid #2a2a3a;cursor:pointer}
+.chip.active{background:linear-gradient(135deg,#00c2d1,#00e5ff);color:#fff;border-color:transparent}
+.grid{display:flex;flex-direction:column;gap:14px;padding:0 10px 10px 10px}
+.card{cursor:pointer;background:#101016;padding:10px;border-radius:16px;border:1px solid #1c1c28}
+.card:active{transform:scale(.98)}
+.thumb{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#000}
+.thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.thumbBg{position:absolute;inset:0}
+.thumbInner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;text-align:center}
+.thumbEmoji{font-size:52px}
+.thumbTxt{font-size:30px;font-weight:900;line-height:1.1;color:#fff;text-shadow:0 4px 14px rgba(0,0,0,.8);word-break:break-word;white-space:pre-line}
+.dur{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.85);padding:4px 7px;border-radius:8px;font-size:11px;z-index:3;font-weight:700}
+.badge{position:absolute;left:8px;top:8px;background:#00c2d1;color:#fff;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;z-index:3}
+.info{padding:10px 2px 2px;display:flex;gap:9px}
+.ch{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#00c2d1,#7b00ff);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff}
+.bottomNav{position:fixed;bottom:0;left:0;right:0;height:62px;background:#0a0a0f;border-top:1px solid #1e1e2e;display:flex;z-index:1000;padding-bottom:4px}
+.bNav{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:#888;gap:2px;cursor:pointer}
+.bNav.active{color:#00c2d1}
+.bNav span:first-child{font-size:20px}
+.watchPage{display:none}
+.watchPage.show{display:block}
+.playerWrap{position:relative;background:#000;width:100%}
+.playerWrap video{width:100%;aspect-ratio:16/9;background:#000;display:block}
+#bigPlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:15;background:rgba(0,0,0,.45);cursor:pointer}
+.bigPlayBtn{width:80px;height:80px;border-radius:50%;background:#00c2d1;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 30px rgba(0,194,209,.8)}
+.earnBar{display:none;padding:12px;border-radius:12px;margin:10px;font-weight:700;font-size:13px;border:1px solid #00c2d1;background:rgba(0,194,209,.15);color:#7deeff}
+.adOverlay{position:absolute;inset:0;background:#000;display:none;z-index:20;flex-direction:column}
+.adTop{display:flex;justify-content:space-between;padding:12px;font-size:12px}
+.adContent{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px}
+.adBox{width:92%;max-width:420px;height:180px;background:linear-gradient(135deg,#0a2a3a,#00c2d1);border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;text-align:center;padding:10px}
+.adSkip{background:#00c2d1;color:#fff;padding:12px 26px;border-radius:30px;border:0;font-weight:800;display:none}
+.modal{position:fixed;inset:0;background:#0a0a0f;display:none;z-index:2000;overflow-y:auto}
+.accBox{width:100%;max-width:520px;background:#0f0f17;border:1px solid #00c2d1;border-radius:18px;margin:10px;max-height:92vh;overflow:auto}
+#accM,#perM{align-items:flex-start;justify-content:center}
+.studio{width:100%;min-height:100%;background:#0a0a0f;display:flex;flex-direction:column;padding-bottom:90px}
+.studioTop{height:56px;display:flex;align-items:center;padding:0 10px;gap:8px;border-bottom:1px solid #1e1e2e;position:sticky;top:0;background:#0a0a0f;z-index:10}
+.xBtn{margin-left:auto;width:30px;height:30px;background:#1e1e2e;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.stepHeader{display:flex;background:#08080a;overflow-x:auto;border-bottom:1px solid #1e1e2e}
+.step{flex:1;min-width:70px;padding:11px 2px;text-align:center;font-size:10px;color:#666;white-space:nowrap;cursor:pointer}
+.step.active{color:#7deeff;border-bottom:2px solid #00c2d1;font-weight:700}
+.step.done{color:#00c2d1}
+.studioBody{display:flex;flex:1;flex-direction:column;width:100%}
+.preview{width:100%;background:#000;position:relative;display:flex;align-items:center;justify-content:center;min-height:210px;aspect-ratio:16/9;overflow:hidden}
+.preview video{width:100%;height:100%;object-fit:contain}
+#gradientOver{position:absolute;inset:0;pointer-events:none;z-index:2}
+#noVideo{text-align:center;color:#666;padding:20px;z-index:3}
+#textOver{position:absolute;top:18%;left:50%;transform:translateX(-50%);font-weight:800;font-size:20px;display:none;text-align:center;width:90%;text-shadow:0 2px 8px #000;z-index:4}
+#stickerOver{position:absolute;bottom:20%;right:10%;font-size:32px;display:none;z-index:4}
+#studioBigPlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4);z-index:5;font-weight:800;cursor:pointer}
+.controls{padding:12px;background:#0f0f17;width:100%}
+.ctrlGroup{background:#181825;border-radius:16px;padding:14px;margin-bottom:12px;width:100%;border:1px solid #222230}
+.inp{width:100%;background:#0a0a0f;border:1px solid #2a2a3a;padding:12px;border-radius:12px;color:#fff;margin-top:8px;outline:none;font-size:13px}
+.inp:focus{border-color:#00c2d1}
+.progress{width:100%;height:8px;background:#1e1e2e;border-radius:10px;overflow:hidden;margin-top:12px}
+.progressBar{height:100%;background:linear-gradient(90deg,#00c2d1,#00e5ff);width:0%}
+.studioFooter{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;padding:10px;padding-bottom:18px;border-top:1px solid #1e1e2e;background:#0a0a0f;z-index:100}
+.studioFooter button{flex:1;height:46px;border-radius:30px;border:0;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
+.btnRoyal.primary{background:linear-gradient(135deg,#00c2d1,#00e5ff);color:#fff}
+.btnRoyal.ghost{background:#1e1e2e;color:#fff}
+.filterGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.filter{aspect-ratio:1;background:#12121a;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #2a2a3a;font-size:11px;cursor:pointer}
+.filter.active{border-color:#00c2d1;color:#7deeff;background:rgba(0,194,209,.1)}
+.ytRow{display:flex;gap:6px;margin-top:8px}
+.ytRow>*{flex:1;min-width:0}
+label{font-size:11px;color:#aaa;display:block;margin-top:10px}
+.miniBtn{padding:7px 11px;background:#181825;border:1px solid #2a2a3a;border-radius:20px;color:#fff;font-size:11px;cursor:pointer;white-space:nowrap}
+.autoTag{font-size:9px;color:#00c2d1;background:rgba(0,194,209,.12);padding:3px 8px;border-radius:20px;border:1px solid #00c2d1;white-space:nowrap}
+.stk{padding:9px 13px;background:#12121a;border-radius:20px;cursor:pointer;border:1px solid #2a2a3a}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#00c2d1;color:#fff;padding:11px 18px;border-radius:30px;font-size:13px;font-weight:700;z-index:9999;opacity:0;pointer-events:none;transition:.3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.5);max-width:92%;text-align:center}
+let videos=[],walletV=0,walletC=0,curSrc=null,hasCounted=false,adStep=0,curSt=1,selThumb=0,myViews=0,liked=false,playSpeed=1,isLoop=false,capOn=true,myFollowers=0,curGradient='none',customThumbImg='';
+let clips=[]; let curClipIdx=0;
+let rexraThumbs=[{bg:'linear-gradient(135deg,#0a2a3a,#00c2d1)',emoji:'🦖'},{bg:'linear-gradient(135deg,#ff6b00,#ffcc00)',emoji:'🔥'},{bg:'linear-gradient(135deg,#7b00ff,#00c2d1)',emoji:'💎'},{bg:'linear-gradient(135deg,#00c853,#00c2d1)',emoji:'🎬'},{bg:'linear-gradient(135deg,#ff1744,#ff6b00)',emoji:'⚡'},{bg:'linear-gradient(135deg,#12121a,#00c2d1)',emoji:'🎵'}];
+function safeNum(v,def){if(v===undefined||v===null||isNaN(v)) return def; return Number(v);}
+function safeStr(v,def){if(v===undefined||v===null||v==='undefined'||v==='') return def; return v;}
+function getThumb(idx){idx=safeNum(idx,0);if(idx<0)idx=0;idx=idx%rexraThumbs.length;return rexraThumbs[idx];}
+function shortTitle(t){t=safeStr(t,'REXRA Video');if(t.length>30)return t.slice(0,30)+'…';return t;}
+function thumbHTML(idx,title,customImg){if(customImg){return '<div class="thumb"><img src="'+customImg+'"></div>';}var t=getThumb(idx);return '<div class="thumb"><div class="thumbBg" style="background:'+t.bg+'"></div><div class="thumbInner"><div class="thumbEmoji">'+t.emoji+'</div><div class="thumbTxt">'+shortTitle(title)+'</div></div></div>';}
+function showViews(n){n=safeNum(n,0);if(n===0)return '0 views';if(n===1)return '1 view';if(n<1000)return n+' views';return (n/1000).toFixed(1).replace('.0','')+'K views';}
+function showFollowers(n){n=safeNum(n,0);if(n===0)return '0 Followers';if(n===1)return '1 Follower';return n.toLocaleString('en-IN')+' Followers';}
+function cleanVideo(v){return {title:safeStr(v.title,'REXRA Video 🦖'),channel:safeStr(v.channel,'REXRA Official'),views:safeNum(v.views,0),dur:safeStr(v.dur,'5:45'),thumbIdx:safeNum(v.thumbIdx,0),thumbImg:safeStr(v.thumbImg,''),src:safeStr(v.src,'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'),mine:v.mine?true:false,appreciate:safeNum(v.appreciate,0)};}
+let samples=['https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4','https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'];
+let comments=[{n:'REXRA Fan',t:'Bhai REXRA OP hai 🦖🔥',l:'0'},{n:'Gaming King',t:'Pura video dekha - Earning aa gayi 💰',l:'0'}];
+function showToast(msg){let t=document.getElementById('toast');if(!t)return;t.innerText=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';setTimeout(function(){t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2200);}
+function save(){try{let toSave=videos.map(function(v){let c=cleanVideo(v);if(c.mine){c.src='';}return c;});localStorage.setItem('rexra_yt',JSON.stringify(toSave));localStorage.setItem('rexra_wallet_yt',JSON.stringify({v:walletV,c:walletC,myViews,myFollowers}));}catch(e){}}
+function load(){try{let sv=localStorage.getItem('rexra_yt');if(sv){let p=JSON.parse(sv);if(p&&p.length>0){videos=p.map(function(v){return cleanVideo(v||{});});}}let sw=localStorage.getItem('rexra_wallet_yt');if(sw){let w=JSON.parse(sw);walletV=safeNum(w.v,0);walletC=safeNum(w.c,0);myViews=safeNum(w.myViews,0);myFollowers=safeNum(w.myFollowers,0);}}catch(e){videos=[];}}
+function goHome(){document.getElementById('home').style.display='block';document.getElementById('watch').style.display='none';document.querySelectorAll('.bNav').forEach(function(b,i){b.classList.toggle('active',i==0)});try{document.getElementById('pl').pause()}catch(e){}}
+function openUp(){document.getElementById('upM').style.display='block';goTo(1)}function closeUp(){document.getElementById('upM').style.display='none'}
+function openAcc(){document.getElementById('accM').style.display='flex';upd()}function closeAcc(){document.getElementById('accM').style.display='none'}
+function openPersonal(){document.getElementById('perM').style.display='flex';updatePersonal()}function closePer(){document.getElementById('perM').style.display='none'}
+function setF(f,el){document.getElementById('eV').style.filter=f;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active');}
+function setSpeed(s){document.getElementById('eV').playbackRate=s;}
+function addSticker(el){let o=document.getElementById('stickerOver');o.innerText=el.innerText;o.style.display='block';setTimeout(()=>o.style.display='none',2000);}
+function setGradient(type){curGradient=type;let o=document.getElementById('gradientOver');if(!o)return;if(type=='sunset')o.style.background='linear-gradient(180deg, rgba(255,107,0,0.28), rgba(255,204,0,0.16), transparent)';else if(type=='cinematic')o.style.background='linear-gradient(180deg, rgba(0,0,0,0.65), transparent 22%, transparent 78%, rgba(0,0,0,0.65))';else if(type=='rexra')o.style.background='linear-gradient(135deg, rgba(0,194,209,0.28), rgba(123,0,255,0.28))';else o.style.background='transparent';document.getElementById('editDot5').innerText='5.Gradient ✓';}
+function autoMsg(t){document.getElementById('autoMsg').innerText=t;}
+function autoAfterTitle(el){updateThumbPreview();if(el.value&&el.value.length>3){setTimeout(()=>{if(curSt==2){goTo(3);autoMsg('✅ Details Done — Editing apne aap khul gaya');}},800);}}
+function autoToFilter(){document.getElementById('editTrim').style.display='none';document.getElementById('editFilter').style.display='block';document.getElementById('editDot2').innerText='2.Filter ✓';autoMsg('✅ Trim Done — Filter apne aap khul gaya');}
+function autoToText(){setTimeout(()=>{document.getElementById('editFilter').style.display='none';document.getElementById('editText').style.display='block';document.getElementById('editDot3').innerText='3.Text ✓';autoMsg('✅ Filter Done — Text apne aap khul gaya');},600);}
+function autoToSong(){document.getElementById('editText').style.display='none';document.getElementById('editSong').style.display='block';document.getElementById('editDot4').innerText='4.Song ✓';autoMsg('✅ Text Done — Song apne aap khul gaya');}
+function autoToGradient(){document.getElementById('editSong').style.display='none';document.getElementById('editGradient').style.display='block';autoMsg('✅ Song Done — Gradient apne aap khul gaya');}
+function autoToChecks(){setTimeout(()=>{goTo(5);autoMsg('✅ Elements Done — Checks apne aap khul gaya');},500);}
+function goTo(n){curSt=n;for(let i=1;i<=6;i++){document.getElementById('st'+i).className='step '+(i==n?'active':i<n?'done':'');document.getElementById('sStep'+i).style.display=i==n?'block':'none';}let nb=document.getElementById('nextBtn');nb.innerText=n==6?'Publish 🚀':'Next →';if(n==3){document.getElementById('editTrim').style.display='block';document.getElementById('editFilter').style.display='none';document.getElementById('editText').style.display='none';document.getElementById('editSong').style.display='none';document.getElementById('editGradient').style.display='none';}if(n==6)startUploadFlow();document.getElementById('upM').scrollTop=0;}
+function nextStep(){if(curSt==1&&!curSrc){showToast('Video select karo');return;}if(curSt==2&&!document.getElementById('eTitle').value){showToast('Title likho');return;}if(curSt==6){if(document.getElementById('progBar').style.width!='100%'){showToast('Upload pura hone do');return;}closeUp();goHome();return;}goTo(curSt+1)}function prevStep(){if(curSt>1)goTo(curSt-1)}
+function saveDraft(){showToast('Draft Saved 🦖');}
+function setQuality(el){let q=['Auto 4K','1080p','720p','480p','360p'];let cur=q.indexOf(el.innerText.replace('⚙️ Quality: ',''));let nxt=q[(cur+1)%q.length];el.innerText='⚙️ Quality: '+nxt;}
+function setPlaySpeed(el){let s=[1,1.25,1.5,2,0.5,0.75];let idx=s.indexOf(playSpeed);playSpeed=s[(idx+1)%s.length];document.getElementById('pl').playbackRate=playSpeed;el.innerText='▶️ Speed: '+playSpeed+'x';}
+function toggleCaption(el){capOn=!capOn;el.innerText=capOn?'💬 Captions: On':'💬 Captions: Off';}
+function toggleLoop(el){isLoop=!isLoop;document.getElementById('pl').loop=isLoop;el.innerText=isLoop?'🔁 Loop: On':'🔁 Loop: Off';}
+function togglePiP(){let v=document.getElementById('pl');if(document.pictureInPictureElement){document.exitPictureInPicture();}else{try{v.requestPictureInPicture();}catch(e){showToast('PiP - Browser me kholo');}}}
+function seekBack(){document.getElementById('pl').currentTime-=10;}
+function seekFwd(){document.getElementById('pl').currentTime+=10;}
+function jumpTo(s){let pl=document.getElementById('pl');pl.currentTime=s;pl.play();}
+function toggleTranscript(){let b=document.getElementById('transcriptBox');b.style.display=b.style.display=='none'?'block':'none';}
+function showPoll(){let b=document.getElementById('pollBox');b.style.display=b.style.display=='none'?'block':'none';}
+function reportVideo(){showToast('Report Sent - Team check karegi 🚩');}
+function render(){let g=document.getElementById('grid');if(!g)return;g.innerHTML='';videos.forEach(function(v){let idx=videos.indexOf(v);v=cleanVideo(v);let d=document.createElement('div');d.className='card';d.innerHTML='<div style="position:relative">'+thumbHTML(v.thumbIdx,v.title,v.thumbImg)+'<div class="dur">'+v.dur+'</div><div class="badge">REXRA</div></div><div class="info"><div class="ch">R</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;line-height:1.3">'+v.title+'</div><div style="font-size:12px;color:#aaa">'+v.channel+' • '+showViews(v.views)+'</div><div style="font-size:11px;color:#00c2d1;margin-top:2px">💎 '+v.appreciate+' Appreciate</div></div></div>';d.onclick=function(){play(idx)};g.appendChild(d);});save();updatePersonal();}
+function play(i){
+  videos[i].views=safeNum(videos[i].views,0)+1;myViews=myViews+1;save();
+  let v=cleanVideo(videos[i]||{});
+  document.getElementById('home').style.display='none';
+  let wp=document.getElementById('watch');wp.style.display='block';wp.classList.add('show');
+  let pl=document.getElementById('pl');
+  if(v.mine && clips.length>0){ curClipIdx=0; pl.src=clips[0].src; pl.onended=function(){ curClipIdx++; if(curClipIdx<clips.length){ pl.src=clips[curClipIdx].src; pl.load(); pl.play(); showToast('Part '+(curClipIdx+1)+' / '+clips.length+' 🦖'); } }; }
+  else if(v.mine && curSrc){ pl.src=curSrc; pl.onended=null; } else { pl.src=v.src; pl.onended=null; }
+  pl.load();pl.muted=false;pl.controls=true;
+  hasCounted=false;adStep=0;
+  document.getElementById('vTitle').innerText=v.title;
+  document.getElementById('fCount').innerText=showFollowers(myFollowers);
+  document.getElementById('likeC').innerText=v.appreciate;
+  document.getElementById('earnBar').style.display='none';
+  document.getElementById('bigPlay').style.display='none';
+  pl.onerror=function(){showToast('Video format support nahi - MP4 me try karo');document.getElementById('bigPlay').style.display='flex';};
+  renderComments();showOneAd(1);
+  let side=document.getElementById('side');side.innerHTML='<b>Up next • Autoplay On</b>';
+  videos.forEach(function(vv,idx){if(idx==i)return;vv=cleanVideo(vv);let t=getThumb(vv.thumbIdx);let d=document.createElement('div');d.style.cssText='display:flex;gap:8px;margin:10px 0;cursor:pointer;background:#101016;padding:8px;border-radius:12px;border:1px solid #1c1c28';d.innerHTML='<div style="width:150px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;flex-shrink:0;background:'+t.bg+';display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;text-align:center;color:#fff;padding:6px">'+shortTitle(vv.title)+'</div><div style="min-width:0"><div style="font-size:13px;line-height:1.3;font-weight:600">'+vv.title+'</div><div style="font-size:11px;color:#aaa">'+vv.channel+' • '+showViews(vv.views)+'</div></div>';d.onclick=function(){play(idx)};side.appendChild(d);});
+  setTimeout(function(){render();},500);
+}
+function showOneAd(n){adStep=n;let over=document.getElementById('adOver');over.style.display='flex';document.getElementById('adCount').innerText='Ad '+n+' of 2 • Skip in 5s';document.getElementById('adBox').innerText=n==1?'REXRA AD 1 🦖':'REXRA AD 2 💎';document.getElementById('skipBtn').style.display='none';let sec=5;let t=setInterval(()=>{sec--;document.getElementById('adCount').innerText='Ad '+n+' of 2 • Skip in '+sec+'s';if(sec<=0){clearInterval(t);document.getElementById('adCount').innerText='Ad '+n+' of 2 • Skippable';document.getElementById('skipBtn').style.display='block';}},1000);}
+function skipAd(){
+  if(adStep==1){showOneAd(2);}
+  else{
+    document.getElementById('adOver').style.display='none';
+    document.getElementById('skipBtn').onclick=skipAd;
+    let pl=document.getElementById('pl');
+    let p=pl.play();
+    if(p){p.then(function(){document.getElementById('bigPlay').style.display='none';}).catch(function(){document.getElementById('bigPlay').style.display='flex';});}
+    else{document.getElementById('bigPlay').style.display='flex';}
+    pl.ontimeupdate=function(){if(!pl.duration)return;let pct=(pl.currentTime/pl.duration)*100;if(pct>=90&&!hasCounted){hasCounted=true;walletV+=0.34;walletC+=0.50;let bar=document.getElementById('earnBar');bar.style.display='block';document.getElementById('earnTxt').innerText='Earning Added! 🦖 Pura Video Dekha';upd();save();}};
+  }
+}
+function forcePlay(){let pl=document.getElementById('pl');pl.play().then(function(){document.getElementById('bigPlay').style.display='none';}).catch(function(){showToast('Phir se Tap karo ▶️');});}
+function downloadVideo(){let over=document.getElementById('adOver');over.style.display='flex';document.getElementById('adCount').innerText='Download Ad • Skip in 5s';document.getElementById('adBox').innerText='DOWNLOAD AD 🦖';document.getElementById('skipBtn').style.display='none';let sec=5;let t=setInterval(()=>{sec--;document.getElementById('adCount').innerText='Download Ad • Skip in '+sec+'s';if(sec<=0){clearInterval(t);document.getElementById('adCount').innerText='Skippable';document.getElementById('skipBtn').style.display='block';document.getElementById('skipBtn').onclick=function(){document.getElementById('adOver').style.display='none';document.getElementById('skipBtn').onclick=skipAd;showToast('Download started! 🦖');};}},1000);}
+function likeVideo(){let curIdx=videos.findIndex(function(v){return cleanVideo(v).title===document.getElementById('vTitle').innerText});if(curIdx!==-1){if(!liked){videos[curIdx].appreciate=safeNum(videos[curIdx].appreciate,0)+1;liked=true;}else{videos[curIdx].appreciate=Math.max(0,safeNum(videos[curIdx].appreciate,0)-1);liked=false;}document.getElementById('likeC').innerText=videos[curIdx].appreciate;save();}showToast(liked?'Appreciated 💎':'Appreciate hataya');}
+function dislikeVideo(){showToast('Not For Me 🙈 - Aisi video kam dikhegi');}
+function shareVideo(){showToast('Link copied! 🦖 https://rexra.app/v/...');}
+function saveVideo(){showToast('Saved to Playlist 🦖');}
+function toggleSub(el){if(el.innerText=='+ Follow'){myFollowers=myFollowers+1;el.innerText='Following ✓';}else{myFollowers=Math.max(0,myFollowers-1);el.innerText='+ Follow';}document.getElementById('fCount').innerText=showFollowers(myFollowers);save();upd();}
+function renderComments(){let l=document.getElementById('cList');l.innerHTML='';comments.forEach(function(c){let d=document.createElement('div');d.style.cssText='display:flex;gap:8px;margin-bottom:10px';d.innerHTML='<div style="width:32px;height:32px;border-radius:50%;background:#333;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0">'+c.n[0]+'</div><div style="min-width:0"><div style="font-size:12px"><b>'+c.n+'</b></div><div style="font-size:13px">'+c.t+'</div><div style="font-size:11px;color:#aaa">💎 '+c.l+' Appreciate • Reply</div></div>';l.appendChild(d);});}
+function addComment(){let v=document.getElementById('cIn').value;if(!v)return;comments.unshift({n:'You',t:v,l:'0'});document.getElementById('cIn').value='';renderComments();}
+function updatePersonal(){let myVids=videos.filter(function(v){return v.mine});document.getElementById('pVideos').innerText=myVids.length;document.getElementById('pViews').innerText=myViews;document.getElementById('pEarn').innerText='Rs '+walletC.toFixed(2);let list=document.getElementById('pList');list.innerHTML='';if(myVids.length==0){list.innerHTML='<div style="padding:30px;text-align:center;color:#666">No videos yet<br>+ se upload karo</div>';}else{myVids.forEach(function(v){let idx=videos.indexOf(v);v=cleanVideo(v);let d=document.createElement('div');d.style.cssText='display:flex;gap:10px;padding:12px;background:#12121a;border-radius:12px;margin-bottom:8px';d.innerHTML='<div style="width:120px;height:68px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#222;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;text-align:center;color:#fff;padding:6px">'+shortTitle(v.title)+'</div><div style="flex:1;min-width:0"><div style="font-size:13px">'+v.title+'</div><div style="font-size:11px;color:#aaa">Permanent • '+showViews(v.views)+'</div></div><button style="padding:6px 12px;border-radius:20px;background:#ff3344;color:#fff;border:0;flex-shrink:0" onclick="deleteVideo('+idx+')">Delete</button>';list.appendChild(d);});}}
+function deleteVideo(idx){if(confirm('Delete?')){videos.splice(idx,1);render();upd();save();}}
+function upd(){document.getElementById('wV').innerText='Rs '+walletV.toFixed(2);document.getElementById('wC').innerText='Rs '+walletC.toFixed(2);document.getElementById('wTotal').innerText='Rs '+(walletV+walletC).toFixed(2);let btn=document.getElementById('wBtn');if((walletV+walletC)>=100){btn.style.background='#00c2d1';btn.style.color='#fff';btn.innerText='Withdraw - Available 🦖';}}
+function doWithdraw(){if((walletV+walletC)>=100){showToast('Withdraw Sent 🦖 24h me aayega');walletV=0;walletC=0;upd();save();}else showToast('Min Rs 100 chahiye');}
+// MULTI-CLIP MERGE - 2-3 Video select karo -> Judke 1 banegi
+document.getElementById('fIn').onchange=function(e){
+  let files=e.target.files; if(!files||files.length==0) return;
+  clips=[]; curClipIdx=0;
+  for(let i=0;i<files.length;i++){ clips.push({name:files[i].name, src:URL.createObjectURL(files[i])}); }
+  curSrc=clips[0].src;
+  let v=document.getElementById('eV'); v.src=curSrc; v.style.display='block'; document.getElementById('noVideo').style.display='none'; v.load();
+  let sb=document.getElementById('studioBigPlay'); if(sb) sb.style.display='flex';
+  v.onplay=function(){ if(sb) sb.style.display='none'; };
+  v.onended=function(){ curClipIdx++; if(curClipIdx<clips.length){ v.src=clips[curClipIdx].src; v.load(); v.play(); showToast('Clip '+(curClipIdx+1)+' / '+clips.length+' chal rahi hai 🦖'); updateClipList(); } else { showToast('Saari Clip khatam - Merged Video Done ✅'); curClipIdx=0; } };
+  updateClipList();
+  let tl=document.getElementById('thumbList');tl.innerHTML='';
+  rexraThumbs.forEach(function(t,idx){let d=document.createElement('div');d.style.cssText='width:92px;height:56px;border-radius:10px;overflow:hidden;border:2px solid '+(idx==0?'#00c2d1':'#1e1e2e')+';cursor:pointer;flex-shrink:0;background:'+t.bg+';display:flex;align-items:center;justify-content:center;font-size:18px';d.innerText=t.emoji;d.onclick=function(){document.querySelectorAll('#thumbList div').forEach(function(x){x.style.borderColor='#1e1e2e'});d.style.borderColor='#00c2d1';selThumb=idx;customThumbImg='';updateThumbPreview();};tl.appendChild(d);});
+  selThumb=0;updateThumbPreview();
+  setTimeout(function(){goTo(2);autoMsg('✅ '+clips.length+' Video Select Done — Judke 1 ban gayi — Details khul gaya');},800);
+};
+function updateClipList(){
+  let box=document.getElementById('clipList'); let info=document.getElementById('mergeInfo'); if(!box) return;
+  if(clips.length<=1){ box.style.display='none'; if(info) info.style.display='none'; return; }
+  box.style.display='block'; if(info){ info.style.display='block'; info.innerText='🦖 '+clips.length+' Video Judi Hui Hai — Judke 1 Video Ban Gayi — Total: '+clips.length+' Clips'; }
+  let html='<div style="font-size:12px;font-weight:800;color:#00c2d1;margin-bottom:8px">🎬 Me
+  
